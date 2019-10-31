@@ -21,7 +21,7 @@ function register($no)
 	{
 	$nama = nama();
 	$email = str_replace(" ", "", $nama) . mt_rand(100, 999);
-	$data = '{"name":"' . $nama . '","email":"' . $email . '@gmail.com","phone":"+' . $no . '","signed_up_country":"ID"}';
+	$data = '{"name":"' . nama() . '","email":"' . $email . '@gmail.com","phone":"+' . $no . '","signed_up_country":"ID"}';
 	$register = request("/v5/customers", "", $data);
 	//print_r($register);
 	if ($register['success'] == 1)
@@ -30,7 +30,6 @@ function register($no)
 		}
 	  else
 		{
-      save("error_log.txt", json_encode($register));
 		return false;
 		}
 	}
@@ -44,7 +43,6 @@ function verif($otp, $token)
 		}
 	  else
 		{
-      save("error_log.txt", json_encode($verif));
 		return false;
 		}
 	}
@@ -54,14 +52,13 @@ function verif($otp, $token)
 	$email = str_replace(" ", "", $nama) . mt_rand(100, 999);
 	$data = '{"phone":"+'.$no.'"}';
 	$register = request("/v4/customers/login_with_phone", "", $data);
-	//print_r($register);
+	print_r($register);
 	if ($register['success'] == 1)
 		{
 		return $register['data']['login_token'];
 		}
 	  else
 		{
-      save("error_log.txt", json_encode($register));
 		return false;
 		}
 	}
@@ -75,13 +72,12 @@ function veriflogin($otp, $token)
 		}
 	  else
 		{
-      save("error_log.txt", json_encode($verif));
 		return false;
 		}
 	}
 function claim($token)
 	{
-	$data = '{"promo_code":"GOFOODHEMAT1"}';
+	$data = '{"promo_code":"UPSIZERAMADHAN"}';
 	$claim = request("/go-promotions/v1/promotions/enrollments", $token, $data);
 	if ($claim['success'] == 1)
 		{
@@ -89,7 +85,6 @@ function claim($token)
 		}
 	  else
 		{
-      save("error_log.txt", json_encode($claim));
 		return false;
 		}
 	}
@@ -162,6 +157,6 @@ if ($login == false)
 			echo $claim . "\n";
 			}
 		}
-	}
+	}	
 }
 ?>
